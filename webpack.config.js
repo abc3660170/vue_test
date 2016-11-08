@@ -1,62 +1,64 @@
-/**
- * Created by 毛俊杰 on 2016/9/6 0006.
- */
-var path = require('path');
+var path = require('path')
+var webpack = require('webpack')
+
 module.exports = {
     entry: './src/main.js',
     output: {
-        path: './dist',
-        publicPath:'dist/',
-        filename: 'main.js'
+        path: path.resolve(__dirname, './dist'),
+        publicPath: '/dist/',
+        filename: 'build.js'
     },
-    //配置自动刷新,如果打开会使浏览器刷新而不是热替换
-    /*devServer: {
-     historyApiFallback: true,
-     hot: false,
-     inline: true,
-     grogress: true
-     },*/
+    resolveLoader: {
+        root: path.join(__dirname, 'node_modules')
+    },
     module: {
         loaders: [
-            //转化ES6语法
+            {
+                test: /\.vue$/,
+                loader: 'vue'
+            },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
+                loader: 'babel',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file'
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                loader: 'file',
                 query: {
-                    presets: ['es2015']
+                    name: '[name].[ext]?[hash]'
                 }
-            },
-            // {
-            //     test: /(\.jsx|\.js)$/,
-            //     loader: "eslint-loader",
-            //     exclude: /node_modules/
-            // },
-
-            //解析.vue文件
-            {
-                test:/\.vue$/,
-                loader:'vue'
-            },
-            //图片转化，小于8K自动转化为base64的编码
-            {
-                test: /\.(png|jpg|gif)$/,
-                loader:'url-loader?limit=8192'
             }
         ]
     },
-    // vue:{
-    //     loaders:{
-    //         js:'babel'
-    //     }
-    // },
-    resolve: {
-        // require时省略的扩展名，如：require('app') 不需要app.js
-        extensions: ['', '.js', '.vue'],
-        // 别名，可以直接使用别名来代表设定的路径以及其他
-        alias: {
-            filter: path.join(__dirname, './src/filters'),
-            components: path.join(__dirname, './src/components')
-        }
-    }
+    devServer: {
+        historyApiFallback: true,
+        noInfo: true
+    },
+    devtool: '#eval-source-map'
+}
+
+if (process.env.NODE_ENV === 'production') {
+    module.exports.devtool = '#source-map'
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ])
 }

@@ -1,11 +1,11 @@
-/**
- * Created by 毛俊杰 on 2016/9/6 0006.
- */
 import Vue from 'vue'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 import App from './components/app.vue'
 
+Vue.use(ElementUI)
 
 new Vue({
-    el: 'body',
-    components:{App}
-});
+    el: '#app',
+    render: h => h(App)
+})
