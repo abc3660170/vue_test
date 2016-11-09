@@ -1,8 +1,7 @@
 
-<template>
-    <div>111111111111111111</div>
-    <el-checkbox v-model="checked1" disabled>备选项1</el-checkbox>
-    <el-checkbox v-model="checked2" disabled>备选项</el-checkbox>
+<template><div id="mycheck">
+        <el-checkbox v-model="checked1">备选项3</el-checkbox>
+        <el-checkbox v-model="checked2" disabled>备选项2</el-checkbox></div>
 </template>
 <script>
     export default {

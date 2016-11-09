@@ -3,9 +3,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import App from './components/app.vue'
 
-Vue.use(ElementUI)
-
+// Vue.component(Checkbox.name, Checkbox)
+Vue.use(ElementUI);
 new Vue({
-    el: '#app',
     render: h => h(App)
-})
+}).$mount('#app')
